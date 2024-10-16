@@ -42,6 +42,11 @@
             </a>
         </li>
         <li>
+            <a href="{{ route('user.add.user') }}" class="{{ menuActive('user.add.user') }}">
+                <img src="{{ asset($activeTemplateTrue . 'users/images/icon/profile.png') }}" alt="icon"> @lang('Add User')
+            </a>
+        </li>
+        <li>
             <a href="{{ route('user.deposit.index') }}" class="{{ menuActive('user.deposit*') }}">
                 <img src="{{ asset($activeTemplateTrue . 'users/images/icon/wallet.png') }}" alt="icon"> @lang('Deposit')
             </a>
