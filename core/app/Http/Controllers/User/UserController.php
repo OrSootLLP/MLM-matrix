@@ -465,10 +465,15 @@ class UserController extends Controller
             $adminNotification->click_url = urlPath('admin.users.detail', $user->id);
             $adminNotification->save();
 
+            $userExtras = new UserExtra();
+            $userExtras->user_id = $user->id;
+            $userExtras->save();
+
             $trx = getTrx();
 
             $mlm = new Mlm($user, $plan, $trx);
             $mlm->purchasePlan();
+
 
             $notify[] = ['success', 'User created successfully'];
             return to_route("user.add.user")->withNotify($notify);
