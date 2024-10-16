@@ -28,7 +28,6 @@ Route::namespace('User\Auth')->name('user.')->group(function () {
             Route::post('password/reset', 'reset')->name('password.update');
             Route::get('password/reset/{token}', 'showResetForm')->name('password.reset');
         });
-
     });
 });
 
@@ -68,6 +67,8 @@ Route::middleware('auth')->name('user.')->group(function () {
                 Route::get('transactions', 'transactions')->name('transactions');
 
                 Route::post('add-device-token', 'addDeviceToken')->name('add.device.token');
+
+                Route::any('add-user', 'addUser')->name('add.user');
 
                 Route::get('bv-log', 'bvLog')->name('bv.log');
                 Route::get('referrals', 'myReferralLog')->name('my.referral');
@@ -118,7 +119,7 @@ Route::middleware('auth')->name('user.')->group(function () {
         // Payment
         Route::prefix('deposit')->name('deposit.')->controller('Gateway\PaymentController')->group(function () {
             Route::any('/', 'deposit')->name('index');
-            Route::post('insert', 'depositInsert')->name('insert');
+            Route::post('addUser', 'depositInsert')->name('insert');
             Route::get('confirm', 'depositConfirm')->name('confirm');
             Route::get('manual', 'manualDepositConfirm')->name('manual.confirm');
             Route::post('manual', 'manualDepositUpdate')->name('manual.update');

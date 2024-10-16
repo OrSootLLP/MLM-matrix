@@ -471,7 +471,7 @@ class UserController extends Controller
             $mlm->purchasePlan();
 
             $notify[] = ['success', 'User created successfully'];
-            return back()->withNotify($notify);
+            return to_route("user.add.user")->withNotify($notify);
         }
 
         return view('Template::user.add_user', compact('pageTitle', 'plans'));
