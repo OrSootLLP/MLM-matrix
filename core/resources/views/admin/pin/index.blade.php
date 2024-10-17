@@ -111,6 +111,15 @@
                             <input type="number" class="form-control" name="number" placeholder="@lang('Enter Number')"
                                 required="">
                         </div>
+                        <div class="form-group">
+                            <label> @lang('User')</label>
+                            <select class="select2 form-control" name="user">
+                                <option value="" selected disabled>Select User</option>
+                                @foreach ($users as $key => $user)
+                                    <option value="{{ $user->id }}">{{ __($user->firstname." ".$user->lastname) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn--primary w-100 h-45">@lang('Created')</button>

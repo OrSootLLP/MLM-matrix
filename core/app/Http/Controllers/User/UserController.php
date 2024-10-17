@@ -6,12 +6,14 @@ use App\Lib\Mlm;
 use App\Models\Form;
 use App\Models\User;
 use App\Models\BvLog;
+use App\Models\Plan;
 use App\Models\Deposit;
 use App\Constants\Status;
 use App\Models\UserExtra;
 use App\Lib\FormProcessor;
 use App\Models\Withdrawal;
 use App\Models\DeviceToken;
+use App\Models\AdminNotification;
 use App\Models\Transaction;
 use App\Models\UserRanking;
 use Illuminate\Http\Request;
@@ -19,6 +21,8 @@ use Illuminate\Validation\Rule;
 use App\Lib\GoogleAuthenticator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -421,5 +425,83 @@ class UserController extends Controller
         $userRankings = UserRanking::active()->get();
         $user         = auth()->user()->load('userRanking', 'referrals');
         return view('Template::user.user_ranking', compact('pageTitle', 'userRankings', 'user'));
+    }
+
+    public function addUser(Request $request)
+    {
+        // TODO: modify this in
+        /* if (!gs()->add_user) {
+            abort(404);
+        } */
+        $pageTitle    = 'Add User';
+        $activeUser   = auth()->user();
+        $plans        = Plan::where('status', Status::ENABLE)->get();
+
+        if ($request->doSubmit) {
+            $this->validator($request->all())->validate();
+            $plan         = Plan::where('status', Status::ENABLE)->findOrFail($request->plan);
+
+            if ($activeUser->balance < $plan->price) {
+                $notify[] = ['error', 'You\'ve no sufficient balance'];
+                return back()->withNotify($notify);
+            }
+
+            $user            = new User();
+            $user->email     = strtolower($request->email);
+            $user->firstname = $request->firstname;
+            $user->lastname  = $request->lastname;
+            $user->password  = Hash::make($request->password);
+            $user->ref_by    = $activeUser->id;
+            $user->kv = gs('kv') ? Status::NO : Status::YES;
+            $user->ev = gs('ev') ? Status::NO : Status::YES;
+            $user->sv = gs('sv') ? Status::NO : Status::YES;
+            $user->ts = Status::DISABLE;
+            $user->tv = Status::ENABLE;
+            $user->save();
+
+            $adminNotification            = new AdminNotification();
+            $adminNotification->user_id   = $user->id;
+            $adminNotification->title     = 'New member registered';
+            $adminNotification->click_url = urlPath('admin.users.detail', $user->id);
+            $adminNotification->save();
+
+            $userExtras = new UserExtra();
+            $userExtras->user_id = $user->id;
+            $userExtras->save();
+
+            $trx = getTrx();
+
+            $mlm = new Mlm($user, $plan, $trx);
+            $mlm->purchasePlan();
+
+
+            $notify[] = ['success', 'User created successfully'];
+            return to_route("user.add.user")->withNotify($notify);
+        }
+
+        return view('Template::user.add_user', compact('pageTitle', 'plans'));
+    }
+
+
+    protected function validator(array $data)
+    {
+
+        $passwordValidation = Password::min(6);
+
+        if (gs('secure_password')) {
+            $passwordValidation = $passwordValidation->mixedCase()->numbers()->symbols()->uncompromised();
+        }
+
+        $validate     = Validator::make($data, [
+            'firstname' => 'required',
+            'lastname'  => 'required',
+            'email'     => 'required|string|email|unique:users',
+            'password'  => ['required', 'confirmed', $passwordValidation],
+        ], [
+            'firstname.required' => 'The first name field is required',
+            'lastname.required' => 'The last name field is required'
+        ]);
+
+        return $validate;
     }
 }
