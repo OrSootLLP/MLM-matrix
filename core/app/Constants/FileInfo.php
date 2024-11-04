@@ -30,7 +30,7 @@ class FileInfo
         $data['default'] = [
             'path'      => 'assets/images/default.png',
         ];
-      
+
         $data['ticket'] = [
             'path'      => 'assets/support',
         ];
@@ -47,6 +47,10 @@ class FileInfo
         $data['seo'] = [
             'path'      => 'assets/images/seo',
             'size'      => '1180x600',
+        ];
+        $data['product'] = [
+            'path'      => 'assets/images/product',
+            'size'      => '500x500',
         ];
         $data['userProfile'] = [
             'path'      => 'assets/images/user/profile',

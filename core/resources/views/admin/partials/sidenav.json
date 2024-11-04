@@ -35,6 +35,15 @@
         "route_name": "admin.plan.index",
         "menu_active": "admin.plan*"
     },
+    "products": {
+        "keyword": [
+            "Dashboard","Product"
+        ],
+        "title": "Products",
+        "icon": "la la-product-hunt",
+        "route_name": "admin.product.index",
+        "menu_active": "admin.product*"
+    },
     "pin": {
         "title": "Manage Pins",
         "icon": "las la-key",
