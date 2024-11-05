@@ -109,6 +109,14 @@ Route::middleware('admin')->group(function () {
         Route::get('user/generate', 'userPins')->name('user');
     });
 
+    // Pin Controller
+    Route::controller('ProductController')->prefix('product')->name('product.')->group(function () {
+        Route::get('/', 'product')->name('index');
+        Route::post('save', 'productSave')->name('save');
+        Route::post('status/{id}', 'status')->name('status');
+        Route::post('remove/{id}', 'remove')->name('remove');
+    });
+
     // Ranking Controller
     Route::controller('RankingController')->name('ranking.')->prefix('user/ranking')->group(function () {
         Route::get('', 'index')->name('list');
