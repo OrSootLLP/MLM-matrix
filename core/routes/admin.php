@@ -109,10 +109,18 @@ Route::middleware('admin')->group(function () {
         Route::get('user/generate', 'userPins')->name('user');
     });
 
-    // Pin Controller
+    // Product Controller
     Route::controller('ProductController')->prefix('product')->name('product.')->group(function () {
         Route::get('/', 'product')->name('index');
         Route::post('save', 'productSave')->name('save');
+        Route::post('status/{id}', 'status')->name('status');
+        Route::post('remove/{id}', 'remove')->name('remove');
+    });
+
+    // Franchise Controller
+    Route::controller('FranchiseController')->prefix('franchise')->name('franchise.')->group(function () {
+        Route::get('/', 'franchise')->name('index');
+        Route::post('save', 'franchiseSave')->name('save');
         Route::post('status/{id}', 'status')->name('status');
         Route::post('remove/{id}', 'remove')->name('remove');
     });

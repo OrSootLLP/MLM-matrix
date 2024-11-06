@@ -44,6 +44,15 @@
         "route_name": "admin.product.index",
         "menu_active": "admin.product*"
     },
+    "franchises": {
+        "keyword": [
+            "Dashboard","Franchise"
+        ],
+        "title": "Franchises",
+        "icon": "la la-store",
+        "route_name": "admin.franchise.index",
+        "menu_active": "admin.franchise*"
+    },
     "pin": {
         "title": "Manage Pins",
         "icon": "las la-key",

@@ -49,7 +49,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label> @lang('Plans')</label>
-                                        <select class="select2 form-control" name="plan">
+                                        <select class="select2 form-control" name="plan" required>
                                             <option value="" selected disabled>Select Plan</option>
                                             @foreach ($plans as $key => $plan)
                                                 <option value="{{ $plan->id }}">{{ __($plan->name) }}</option>
