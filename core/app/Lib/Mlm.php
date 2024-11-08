@@ -16,6 +16,13 @@ class Mlm
     public $user;
 
     /**
+     * Reference User who created & subscribed a plan for User
+     *
+     * @var object
+     */
+    public $refUser;
+
+    /**
      * Plan which subscribed by the user
      *
      * @var object
@@ -44,12 +51,13 @@ class Mlm
      * @param string $trx
      * @return void
      */
-    public function __construct($user = null, $plan = null, $trx = null)
+    public function __construct($user = null, $plan = null, $trx = null, $refUser = null)
     {
         $this->user = $user;
         $this->plan = $plan;
         $this->trx = $trx;
         $this->setting = gs();
+        $this->refUser = $refUser;
     }
 
     /**
@@ -511,12 +519,20 @@ class Mlm
         $user = $this->user;
         $plan = $this->plan;
         $trx = $this->trx;
+        $refUser = $this->refUser;
 
         $oldPlan = $user->plan_id;
         $user->plan_id = $plan->id;
-        $user->balance -= $plan->price;
+        if (!$refUser) {
+            $user->balance -= $plan->price;
+        }
         $user->total_invest += $plan->price;
         $user->save();
+
+        if ($refUser) {
+            $refUser->balance -= $plan->price;
+            $refUser->save();
+        }
 
         $transaction = new Transaction();
         $transaction->user_id = $user->id;
@@ -525,7 +541,7 @@ class Mlm
         $transaction->details = 'Purchased ' . $plan->name;
         $transaction->remark = 'purchased_plan';
         $transaction->trx = $trx;
-        $transaction->post_balance = $user->balance;
+        $transaction->post_balance = ($refUser) ? 0 : $user->balance;
         $transaction->save();
 
         notify($user, 'PLAN_PURCHASED', [
