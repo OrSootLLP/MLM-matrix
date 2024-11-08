@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('franchise', function (Blueprint $table) {
+        Schema::create('franchises', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->text('store');
             $table->bigInteger('state_id');

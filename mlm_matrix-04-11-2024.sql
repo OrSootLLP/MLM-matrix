@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 04, 2024 at 05:20 AM
+-- Generation Time: Nov 06, 2024 at 04:01 AM
 -- Server version: 8.4.2
 -- PHP Version: 8.3.11
 
@@ -6193,10 +6193,10 @@ CREATE TABLE `device_tokens` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `district`
+-- Table structure for table `districts`
 --
 
-CREATE TABLE `district` (
+CREATE TABLE `districts` (
   `districtid` int NOT NULL,
   `district_title` varchar(100) NOT NULL,
   `state_id` int DEFAULT NULL,
@@ -6205,10 +6205,10 @@ CREATE TABLE `district` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `district`
+-- Dumping data for table `districts`
 --
 
-INSERT INTO `district` (`districtid`, `district_title`, `state_id`, `district_description`, `district_status`) VALUES
+INSERT INTO `districts` (`districtid`, `district_title`, `state_id`, `district_description`, `district_status`) VALUES
 (36, 'Anantnag', 15, '', 'Active'),
 (37, 'Bandipore', 15, '', 'Active'),
 (38, 'Baramulla', 15, '', 'Active'),
@@ -6905,10 +6905,10 @@ INSERT INTO `forms` (`id`, `act`, `form_data`, `created_at`, `updated_at`) VALUE
 -- --------------------------------------------------------
 
 --
--- Table structure for table `franchise`
+-- Table structure for table `franchises`
 --
 
-CREATE TABLE `franchise` (
+CREATE TABLE `franchises` (
   `id` bigint UNSIGNED NOT NULL,
   `store` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `state_id` bigint NOT NULL,
@@ -6925,6 +6925,13 @@ CREATE TABLE `franchise` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `franchises`
+--
+
+INSERT INTO `franchises` (`id`, `store`, `state_id`, `district_id`, `commission`, `name`, `mobile`, `pan_number`, `bank_name`, `account_number`, `ifsc_code`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Test Store1', 2, 572, 10, 'maddy', '8574859685', 'cnsps1234n', 'Test aBank', '001532165486', 'SBIN0006408', 1, '2024-11-06 03:49:11', '2024-11-06 03:57:26', NULL);
 
 -- --------------------------------------------------------
 
@@ -7437,15 +7444,15 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `image`, `description`, `price`, `bv`, `pv`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Test Product1', '6728591b28e271730697499.png', 'Test Descsfds', 1000.00, 10, 5, 1, '2024-11-04 04:42:12', '2024-11-04 05:18:19', NULL);
+(1, 'Test Product1', '672ad84c8d4ab1730861132.png', 'Test Descsfds', 1000.00, 10, 5, 1, '2024-11-04 04:42:12', '2024-11-06 02:45:32', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `state`
+-- Table structure for table `states`
 --
 
-CREATE TABLE `state` (
+CREATE TABLE `states` (
   `state_id` int NOT NULL,
   `state_title` varchar(100) NOT NULL,
   `state_description` text NOT NULL,
@@ -7453,10 +7460,10 @@ CREATE TABLE `state` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `state`
+-- Dumping data for table `states`
 --
 
-INSERT INTO `state` (`state_id`, `state_title`, `state_description`, `status`) VALUES
+INSERT INTO `states` (`state_id`, `state_title`, `state_description`, `status`) VALUES
 (1, 'Andaman & Nicobar Islands', '', 'Active'),
 (2, 'Andhra Pradesh', '', 'Active'),
 (3, 'Arunachal Pradesh', '', 'Active'),
@@ -7869,9 +7876,9 @@ ALTER TABLE `device_tokens`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `district`
+-- Indexes for table `districts`
 --
-ALTER TABLE `district`
+ALTER TABLE `districts`
   ADD PRIMARY KEY (`districtid`);
 
 --
@@ -7887,9 +7894,9 @@ ALTER TABLE `forms`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `franchise`
+-- Indexes for table `franchises`
 --
-ALTER TABLE `franchise`
+ALTER TABLE `franchises`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -7975,9 +7982,9 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `state`
+-- Indexes for table `states`
 --
-ALTER TABLE `state`
+ALTER TABLE `states`
   ADD PRIMARY KEY (`state_id`);
 
 --
@@ -8118,9 +8125,9 @@ ALTER TABLE `device_tokens`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `district`
+-- AUTO_INCREMENT for table `districts`
 --
-ALTER TABLE `district`
+ALTER TABLE `districts`
   MODIFY `districtid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6600;
 
 --
@@ -8136,10 +8143,10 @@ ALTER TABLE `forms`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT for table `franchise`
+-- AUTO_INCREMENT for table `franchises`
 --
-ALTER TABLE `franchise`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `franchises`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `frontends`
@@ -8220,9 +8227,9 @@ ALTER TABLE `products`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `state`
+-- AUTO_INCREMENT for table `states`
 --
-ALTER TABLE `state`
+ALTER TABLE `states`
   MODIFY `state_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6600;
 
 --

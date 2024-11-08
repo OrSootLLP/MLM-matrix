@@ -11,7 +11,16 @@
                     <div class="card-body">
                         <form class="register" method="post" action="{{ route('user.add.user') }}">
                             @csrf
-                            <div class="row gy-4">                                
+                            <div class="row gy-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">@lang('Referral Username')</label>
+                                        <input class="form-control form--control referral ref_id" name="referral" type="text" value="{{ auth()->user()->username }}"
+                                            autocomplete="off" required>
+                                        <div id="ref"></div>
+                                        <span id="referral"></span>
+                                    </div>
+                                </div>                                
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">@lang('First Name')</label>
@@ -49,7 +58,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label> @lang('Plans')</label>
-                                        <select class="select2 form-control" name="plan">
+                                        <select class="select2 form-control" name="plan" required>
                                             <option value="" selected disabled>Select Plan</option>
                                             @foreach ($plans as $key => $plan)
                                                 <option value="{{ $plan->id }}">{{ __($plan->name) }}</option>
@@ -76,4 +85,51 @@
             margin-bottom: 10px;
         }
     </style>
+@endpush
+
+@push('script')
+    <script>
+        "use strict";
+        (function($) {
+
+            $('.ref_id').on('focusout', function() {
+
+                var ref_id = $('.ref_id').val();
+
+                if (ref_id) {
+                    var token = "{{ csrf_token() }}";
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('check.referral') }}",
+                        data: {
+                            'ref_id': ref_id,
+                            '_token': token
+                        },
+                        success: function(data) {
+                            if (data.success) {
+                                $('select[name=position]').removeAttr('disabled');
+                                $('#position-test').text('');
+                                $("#ref").html(
+                                    `<span class="help-block"><strong class="text--success">@lang('Referrer username matched')</strong></span>`
+                                );
+                            } else {
+                                $('select[name=position]').attr('disabled', true);
+                                $('#position-test').html(not_select_msg);
+                                $("#ref").html(
+                                    `<span class="help-block"><strong class="text--danger">@lang('Referrer username not found')</strong></span>`
+                                );
+                            }
+                            positionDetails = data;
+                            updateHand();
+                        }
+                    });
+                } else {
+                    $("#position-test").html(
+                        `<span class="help-block"><strong class="text--danger">@lang('Enter referral username first')</strong></span>`
+                    );
+                }
+            });
+            
+        })(jQuery);
+    </script>
 @endpush

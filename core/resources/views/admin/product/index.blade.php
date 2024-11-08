@@ -117,7 +117,7 @@
                         <div class="form-group">
                             <label> @lang('Image')</label> <i class="fas fa-question-circle text--gray" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="@lang('Update an Image.')"></i>
-                            <x-image-uploader :size="getFileSize('product')" class="w-100 image" type="gateway" :required=false name="image" />
+                            <x-image-uploader :size="getFileSize('product')" class="w-100 image" type="gateway" :required=false name="image" id="editImage" />
                         </div>
                     
                     </div>
@@ -174,7 +174,7 @@
                         <div class="form-group">
                             <label> @lang('Image')</label> <i class="fas fa-question-circle text--gray" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="@lang('Add an Image.')"></i>
-                            <x-image-uploader image="" class="w-100" type="gateway" :required=true name="image" />
+                            <x-image-uploader class="w-100" type="gateway" :required=true name="image" id="addImage" />
                         </div>
 
                     </div>
@@ -209,7 +209,6 @@
                 modal.find('.description').val($(this).data('description'));
                 let image = $(this).data('image');
                 modal.find(".image-upload-preview").css("background-image", "url("+$(this).data('image')+")");
-                console.log(image);
                 modal.find('input[name=id]').val($(this).data('id'));
                 modal.modal('show');
             });

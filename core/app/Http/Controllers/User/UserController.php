@@ -471,7 +471,7 @@ class UserController extends Controller
 
             $trx = getTrx();
 
-            $mlm = new Mlm($user, $plan, $trx);
+            $mlm = new Mlm($user, $plan, $trx, $activeUser);
             $mlm->purchasePlan();
 
 
@@ -497,9 +497,13 @@ class UserController extends Controller
             'lastname'  => 'required',
             'email'     => 'required|string|email|unique:users',
             'password'  => ['required', 'confirmed', $passwordValidation],
+            'plan'      => 'required'
         ], [
             'firstname.required' => 'The first name field is required',
-            'lastname.required' => 'The last name field is required'
+            'lastname.required' => 'The last name field is required',
+            'email.required' => 'The email field is required',
+            'email.unique' => 'The email already exists',
+            'plan.required' => 'The plan field is required',
         ]);
 
         return $validate;
